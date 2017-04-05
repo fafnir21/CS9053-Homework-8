@@ -10,7 +10,7 @@ import java.util.List;
  * Date: 05/03/17
  * Time: 3:04 PM
  * Use a bottom-up DP method to implement LambdaWeightedScheduler class
- * Optimal value is in optimal[] array, optimal[n-1] is the final n step
+ * Optimal value is in optimal[] array, optimal[n] is the final n step
  * Result is added into a job list
  */
 
