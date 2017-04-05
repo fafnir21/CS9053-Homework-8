@@ -17,7 +17,7 @@ import java.util.List;
 public class LambdaWeightedScheduler extends AbstractLambdaScheduler{
 	
 	private int[] maxCompatibleIndexBefore;
-	private static double[] optimal;
+	private double[] optimal;
 	
 	public LambdaWeightedScheduler(List<Job> jobList) {
 		super(jobList);
@@ -41,7 +41,8 @@ public class LambdaWeightedScheduler extends AbstractLambdaScheduler{
 		Collections.reverse(resultList);
 	}
 	
-	private void sortJobList(List<Job> jobList) {//Sort jobs according to finish time
+	//Sort jobs according to finish time
+	private void sortJobList(List<Job> jobList) {
 		Collections.sort(jobList, new Comparator<Job>() {
 			@Override
 			public int compare(Job j1, Job j2) {
@@ -50,6 +51,7 @@ public class LambdaWeightedScheduler extends AbstractLambdaScheduler{
 		});
 	}
 	
+	//Compute each job's max previous compatible index of job
 	private void computeMaxCompatibleIndexBefore() {
 		for(int i = 1; i <= n; i++)
 			maxCompatibleIndexBefore[i] = 0;
@@ -63,6 +65,7 @@ public class LambdaWeightedScheduler extends AbstractLambdaScheduler{
 		}
 	}
 	
+	//Use bottom-up DP method to compute optimal value
 	private void computeOptimal() {
 		optimal[0] = 0d;
 		for(int i = 1; i <= n; i++) {
@@ -72,6 +75,7 @@ public class LambdaWeightedScheduler extends AbstractLambdaScheduler{
 		}
 	}
 	
+	//Find the consist of jobs of best value and add them into a result list
 	private void findSolution(int n) {
 		if(n == 0) {
 			return;
@@ -83,6 +87,10 @@ public class LambdaWeightedScheduler extends AbstractLambdaScheduler{
 		} else {
 			findSolution(n - 1);
 		}
+	}
+	
+	public double getBestValue() {
+		return optimal[n - 1];
 	}
 		
 	public static void main(String[] args) {
@@ -104,6 +112,6 @@ public class LambdaWeightedScheduler extends AbstractLambdaScheduler{
 		for(Job job : resultList) {
 			System.out.printf("%s%n", job.getName());
 		}
-		System.out.printf("The total value of optimal sublist of jobs is %f%n", optimal[jobList.size() - 1]);
+		System.out.printf("The total value of optimal sublist of jobs is %f%n", lws.getBestValue());
 	}
 }

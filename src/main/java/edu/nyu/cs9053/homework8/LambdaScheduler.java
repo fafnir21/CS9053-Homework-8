@@ -32,7 +32,8 @@ public class LambdaScheduler extends AbstractLambdaScheduler{
 		resultList = new ArrayList<Job>();
 	}
 	
-	private void sortJobList(List<Job> jobList) {//Sort jobs according to finish time
+	//Sort jobs according to finish time
+	private void sortJobList(List<Job> jobList) {
 		Collections.sort(jobList, new Comparator<Job>() {
 			@Override
 			public int compare(Job j1, Job j2) {
@@ -41,6 +42,7 @@ public class LambdaScheduler extends AbstractLambdaScheduler{
 		});
 	}
 	
+	//Scan the list, use greedy method to find the max number of compatible jobs
 	private void findSolution() {
 		Job pre = jobList.get(0);
 		resultList.add(pre);
