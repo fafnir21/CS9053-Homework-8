@@ -14,17 +14,13 @@ import java.util.List;
  * Result is added into a job list
  */
 
-public class LambdaWeightedScheduler {
+public class LambdaWeightedScheduler extends AbstractLambdaScheduler{
 	
 	private int[] maxCompatibleIndexBefore;
 	private static double[] optimal;
-	private List<Job> resultList;
-	private final List<Job> jobList;
-	private final int n;
 	
 	public LambdaWeightedScheduler(List<Job> jobList) {
-		this.jobList = jobList;
-		this.n = jobList.size();
+		super(jobList);
 		init();
 		jobScheduler();
 	}
@@ -35,7 +31,7 @@ public class LambdaWeightedScheduler {
 		optimal = new double[n + 1];
 	}
 	
-	public void jobScheduler() {
+	private void jobScheduler() {
 		if(jobList == null || jobList.size() == 0)
 			return;
 		sortJobList(jobList);
@@ -88,11 +84,7 @@ public class LambdaWeightedScheduler {
 			findSolution(n - 1);
 		}
 	}
-	
-	public List<Job> getSolution() {
-		return resultList;
-	}
-	
+		
 	public static void main(String[] args) {
 		List<Job> jobList = new ArrayList<Job>();
 		Job j1 = new Job("job1", "", 1L, 2L, 1d);

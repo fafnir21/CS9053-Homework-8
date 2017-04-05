@@ -13,21 +13,35 @@ import java.util.List;
  * Result is added into a job list
  */
 
-public class LambdaScheduler {
-
-	public static List<Job> jobScheduler(List<Job> jobList) {
+public class LambdaScheduler extends AbstractLambdaScheduler{
+	
+	public LambdaScheduler(List<Job> jobList) {
+		super(jobList);
+		init();
+		jobScheduler();
+	}
+	
+	public void jobScheduler() {
 		if(jobList == null || jobList.size() == 0)
-			return null;
-		List<Job> resultList = new ArrayList<Job>();
-		//Sort jobs according to finish time
+			return;
+		sortJobList(jobList);
+		findSolution();
+	}
+	
+	private void init() {
+		resultList = new ArrayList<Job>();
+	}
+	
+	private void sortJobList(List<Job> jobList) {//Sort jobs according to finish time
 		Collections.sort(jobList, new Comparator<Job>() {
 			@Override
 			public int compare(Job j1, Job j2) {
 				return j1.getFinishTime().compareTo(j2.getFinishTime());
 			}
 		});
-		//Find the earliest ending job which does not conflict
-		int n = jobList.size();
+	}
+	
+	private void findSolution() {
 		Job pre = jobList.get(0);
 		resultList.add(pre);
 		for(int i = 1; i < n; i++) {
@@ -37,7 +51,6 @@ public class LambdaScheduler {
 				pre = cur;
 			}
 		}
-		return resultList;
 	}
 	
 	public static void main(String[] args) {
@@ -50,7 +63,8 @@ public class LambdaScheduler {
 		jobList.add(j2);
 		jobList.add(j3);
 		jobList.add(j4);
-		List<Job> resultList = jobScheduler(jobList);
+		LambdaScheduler ls = new LambdaScheduler(jobList);
+		List<Job> resultList = ls.getSolution();
 		for(Job job : resultList) {
 			System.out.printf("%s%n", job.getName());
 		}
