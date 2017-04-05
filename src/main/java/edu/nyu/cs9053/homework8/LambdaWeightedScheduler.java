@@ -90,7 +90,7 @@ public class LambdaWeightedScheduler extends AbstractLambdaScheduler{
 	}
 	
 	public double getBestValue() {
-		return optimal[n - 1];
+		return optimal[n];
 	}
 		
 	public static void main(String[] args) {
